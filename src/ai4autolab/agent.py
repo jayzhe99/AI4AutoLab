@@ -1,4 +1,4 @@
-"""Minimal bounded ReAct-style agent loop."""
+"""带最大执行步数限制的最小ReAct风格智能体循环。"""
 
 from .planner import Planner
 from .safety.guard import ToolGuard
@@ -38,7 +38,7 @@ class ReActAgent:
 
                 call = decision.action
                 if call is None:
-                    raise ToolError("Planner returned neither action nor final answer.")
+                    raise ToolError("规划器既没有返回工具动作，也没有返回最终回答。")
 
                 tool = self.tools.get(call.tool_name)
                 self.guard.validate_call(call, tool)

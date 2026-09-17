@@ -1,17 +1,11 @@
-# Robot Policies
+# 机器人策略
 
-This directory documents trained robot policies. A robot policy maps robot
-observations to actions and is executed by a robotics runtime such as LeRobot.
-It is not an LLM tool.
+这个目录用于记录训练完成的机器人策略。机器人策略把相机图像、关节状态等观察转换成机器人动作，并由LeRobot等机器人运行时执行。它不是提供给大模型直接调用的工具。
 
-Large datasets and model checkpoints should not be committed to normal Git
-history. Keep only small manifests and evaluation summaries here. Store model
-artifacts locally, with Git LFS, DVC, a model registry, or an object store.
+大型示教数据集和模型检查点不应直接提交到普通Git历史中。这里主要保存体积较小的模型清单、配置和评估摘要。模型文件可以保存在本地磁盘，后续再使用Git LFS、DVC、模型注册中心或对象存储管理。
 
-An agent-facing tool such as `LeRobotExecutionTool` may select an approved robot
-policy and start the robotics runtime. The tool and policy remain separate:
+未来由面向智能体的 `LeRobotExecutionTool` 选择经过批准的机器人策略并启动机器人运行时。工具和策略始终保持分离：
 
 ```text
-LLM Agent -> Tool -> LeRobot runtime -> Robot Policy -> Robot hardware
+大模型智能体 -> 工具 -> LeRobot运行时 -> 机器人策略 -> 机器人硬件
 ```
-

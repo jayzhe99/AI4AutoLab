@@ -1,4 +1,4 @@
-"""A deliberately small and safe arithmetic tool for the first demo."""
+"""用于首个演示的简单安全算术工具。"""
 
 import ast
 import operator
@@ -9,7 +9,7 @@ from .base import Tool, ToolError
 
 class CalculatorTool(Tool):
     name = "calculator"
-    description = "Evaluate a basic arithmetic expression using +, -, *, / and parentheses."
+    description = "计算只包含加、减、乘、除和括号的基础算术表达式。"
 
     _binary_operators: Dict[Type[ast.AST], Callable[[float, float], float]] = {
         ast.Add: operator.add,
@@ -24,17 +24,17 @@ class CalculatorTool(Tool):
 
     def validate(self, arguments: Dict[str, Any]) -> None:
         if set(arguments) != {"expression"}:
-            raise ToolError("calculator requires exactly one 'expression' argument.")
+            raise ToolError("calculator工具必须且只能接收一个expression参数。")
         expression = arguments["expression"]
         if not isinstance(expression, str) or not expression.strip():
-            raise ToolError("expression must be a non-empty string.")
+            raise ToolError("expression必须是非空字符串。")
         if len(expression) > 200:
-            raise ToolError("expression is too long.")
+            raise ToolError("expression长度超过限制。")
         try:
             tree = ast.parse(expression, mode="eval")
             self._evaluate_node(tree.body)
         except (SyntaxError, TypeError, ValueError, ZeroDivisionError) as exc:
-            raise ToolError("invalid arithmetic expression: {}".format(exc)) from exc
+            raise ToolError("算术表达式无效：{}".format(exc)) from exc
 
     def execute(self, arguments: Dict[str, Any]) -> Dict[str, Any]:
         expression = arguments["expression"]
@@ -50,5 +50,4 @@ class CalculatorTool(Tool):
             return self._binary_operators[type(node.op)](left, right)
         if isinstance(node, ast.UnaryOp) and type(node.op) in self._unary_operators:
             return self._unary_operators[type(node.op)](self._evaluate_node(node.operand))
-        raise ToolError("unsupported expression element: {}".format(type(node).__name__))
-
+        raise ToolError("表达式包含不支持的元素：{}".format(type(node).__name__))

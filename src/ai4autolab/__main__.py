@@ -1,4 +1,4 @@
-"""Run the offline skeleton from the command line."""
+"""从命令行运行离线智能体骨架。"""
 
 import json
 import sys

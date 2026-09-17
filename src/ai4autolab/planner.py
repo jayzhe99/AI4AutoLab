@@ -1,4 +1,4 @@
-"""Planner boundary: replace DemoPlanner with an LLM-backed planner later."""
+"""规划器边界：未来可将DemoPlanner替换为真实大模型规划器。"""
 
 import re
 from abc import ABC, abstractmethod
@@ -12,11 +12,11 @@ class Planner(ABC):
     def decide(
         self, state: AgentState, available_tools: List[Dict[str, str]]
     ) -> AgentDecision:
-        """Choose one tool call or return a final answer."""
+        """选择一个工具调用，或者直接返回最终回答。"""
 
 
 class DemoPlanner(Planner):
-    """Offline planner used only to verify the agent-tool-observation loop."""
+    """仅用于验证“智能体—工具—观察”闭环的离线规划器。"""
 
     _calculation_pattern = re.compile(
         r"^(?:calculate|calc|计算)\s*[:：]?\s*(?P<expression>.+)$", re.IGNORECASE
@@ -29,12 +29,12 @@ class DemoPlanner(Planner):
             observation = state.observations[-1]
             if observation.ok:
                 return AgentDecision(
-                    final_answer="Tool {!r} returned: {}".format(
+                    final_answer="工具 {!r} 返回：{}".format(
                         observation.tool_name, observation.data
                     )
                 )
             return AgentDecision(
-                final_answer="Tool {!r} failed: {}".format(
+                final_answer="工具 {!r} 执行失败：{}".format(
                     observation.tool_name, observation.error
                 )
             )
@@ -51,7 +51,7 @@ class DemoPlanner(Planner):
         names = [item["name"] for item in available_tools]
         return AgentDecision(
             final_answer=(
-                "The offline demo planner could not map this request to a tool. "
-                "Available tools: {}".format(", ".join(names) or "none")
+                "离线演示规划器无法把该请求映射到工具。"
+                "当前可用工具：{}".format(", ".join(names) or "无")
             )
         )

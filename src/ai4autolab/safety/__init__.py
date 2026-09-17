@@ -1,4 +1,4 @@
-"""Safety gates for agent tool execution."""
+"""智能体工具执行前的安全检查。"""
 
 from .guard import ToolGuard
 

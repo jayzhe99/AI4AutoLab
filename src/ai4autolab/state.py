@@ -1,4 +1,4 @@
-"""State and message types shared by the agent loop."""
+"""智能体循环共享的状态和消息类型。"""
 
 from dataclasses import dataclass, field
 from enum import Enum
@@ -15,7 +15,7 @@ class AgentStatus(str, Enum):
 
 @dataclass(frozen=True)
 class ToolCall:
-    """A planner request to execute one registered tool."""
+    """规划器发出的工具调用请求。"""
 
     tool_name: str
     arguments: Dict[str, Any]
@@ -23,7 +23,7 @@ class ToolCall:
 
 @dataclass(frozen=True)
 class Observation:
-    """The structured result returned by a tool."""
+    """工具返回的结构化观察结果。"""
 
     tool_name: str
     ok: bool
@@ -33,7 +33,7 @@ class Observation:
 
 @dataclass(frozen=True)
 class AgentDecision:
-    """A planner may request an action or finish with a user-facing answer."""
+    """规划器每一步只能调用一个工具，或者生成最终回答。"""
 
     action: Optional[ToolCall] = None
     final_answer: Optional[str] = None
@@ -41,7 +41,7 @@ class AgentDecision:
     def __post_init__(self) -> None:
         choices = int(self.action is not None) + int(self.final_answer is not None)
         if choices != 1:
-            raise ValueError("A decision must contain exactly one action or final answer.")
+            raise ValueError("一次决策必须且只能包含一个工具动作或一个最终回答。")
 
 
 @dataclass

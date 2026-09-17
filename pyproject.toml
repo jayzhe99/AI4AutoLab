@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ai4autolab"
 version = "0.1.0"
-description = "An LLM-tool framework for flexible, skill-driven autonomous laboratories."
+description = "面向自主实验室的自然语言智能体与工具调用框架"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = []
